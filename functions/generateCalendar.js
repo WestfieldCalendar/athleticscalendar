@@ -93,29 +93,31 @@ function formatTime(date) {
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <title>Games</title>
 <style>
   body {
-    font-family: sans-serif;
+    font-family: 'Goldman', cursive;
+    font-weight: 700; /* Bold */
     background: transparent;
     margin: 0;
     color: white;
     display: flex;
     justify-content: center;
-    padding-top: 500px; /* Push content down from the top */
+    padding-top: 680px;
   }
 
   table {
     border-collapse: collapse;
     width: 100%;
     max-width: 1920px;
-    font-size: 1.3em;
+    font-size: 2.5em;
     text-align: center;
   }
 
   td {
-    padding: 12px;
+    padding: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     vertical-align: middle;
     color: white;
@@ -123,11 +125,11 @@ function formatTime(date) {
   }
 
   tr:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.8); /* 60% black */
+    background-color: rgba(0, 0, 0, 0.8);
   }
 
   tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.4); /* 40% black */
+    background-color: rgba(0, 0, 0, 0.4);
   }
 </style>
 </head>

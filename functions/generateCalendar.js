@@ -103,7 +103,7 @@ function formatTime(date) {
     color: white;
     display: flex;
     justify-content: center;
-    padding-top: 300px; /* Push content down from the top */
+    padding-top: 500px; /* Push content down from the top */
   }
 
   table {
@@ -123,7 +123,7 @@ function formatTime(date) {
   }
 
   tr:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.8); /* 80% black */
+    background-color: rgba(0, 0, 0, 0.8); /* 60% black */
   }
 
   tr:nth-child(even) {

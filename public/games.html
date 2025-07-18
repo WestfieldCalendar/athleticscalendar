@@ -7,26 +7,31 @@
 <style>
   body {
     font-family: sans-serif;
-    background: transparent; /* Make body background transparent */
+    background: transparent;
     margin: 20px;
-    color: white; /* White text everywhere */
+    color: white;
+    display: flex;               /* use flexbox */
+    justify-content: center;     /* center horizontally */
   }
   table {
     border-collapse: collapse;
     width: 100%;
+    max-width: 1920px;           /* limit max width */
     font-size: 1.3em;
-    background: transparent; /* Make table background transparent */
+    background: transparent;
+    text-align: center;          /* center text in table cells */
   }
   td {
     padding: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* subtle white border */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     vertical-align: middle;
-    color: white; /* ensure white text */
-    background: transparent; /* transparent cell backgrounds */
+    color: white;
+    background: transparent;
+    text-align: center;          /* center text */
   }
   tr:nth-child(odd),
   tr:nth-child(even) {
-    background-color: transparent !important; /* remove zebra backgrounds */
+    background-color: transparent !important;
   }
 </style>
 </head>

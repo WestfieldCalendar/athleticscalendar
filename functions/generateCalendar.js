@@ -105,7 +105,7 @@ function formatTime(date) {
     color: white;
     display: flex;
     justify-content: center;
-    padding-top: 680px;
+    padding-top: 630px;
   }
 
   table {

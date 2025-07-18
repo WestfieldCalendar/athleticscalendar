@@ -17,7 +17,6 @@ function fetchICS(url) {
   });
 }
 
-// Prioritize longer sport names first
 function extractSport(summary) {
   const knownSports = [
     'Field Hockey',
@@ -34,16 +33,10 @@ function extractSport(summary) {
     'Golf',
     'Tennis'
   ];
-
   const lowerSummary = summary.toLowerCase();
-
   for (const sport of knownSports) {
-    if (lowerSummary.includes(sport.toLowerCase())) {
-      return sport;
-    }
+    if (lowerSummary.includes(sport.toLowerCase())) return sport;
   }
-
-  // fallback:
   return summary.split(' ')[0];
 }
 
@@ -51,14 +44,21 @@ function simplifyOpponent(summary) {
   const vsIndex = summary.toLowerCase().indexOf('vs.');
   let opponent = vsIndex !== -1 ? summary.slice(vsIndex + 3).trim() : summary;
 
-  // Remove parentheses and content inside them, e.g. "(Women's Soccer)"
+  // Remove anything like "Westfield State"
+  opponent = opponent.replace(/Westfield State/gi, '').trim();
+
+  // Remove parentheses and content inside
   opponent = opponent.replace(/\s*\([^)]*\)/g, '').trim();
 
   return opponent;
 }
 
 function formatDate(date) {
-  return date.toLocaleDateString(undefined, { weekday: 'short', month: 'numeric', day: 'numeric' });
+  return date.toLocaleDateString(undefined, {
+    weekday: 'short',
+    month: 'numeric',
+    day: 'numeric',
+  });
 }
 
 function formatTime(date) {
@@ -69,11 +69,15 @@ function formatTime(date) {
   });
 }
 
+function adjustTime(date) {
+  // Adjust 4 hours for EDT
+  return new Date(date.getTime() - 4 * 60 * 60 * 1000);
+}
+
 (async () => {
   try {
     const rawICS = await fetchICS(ICS_URL);
     const data = ical.parseICS(rawICS);
-
     const now = new Date();
 
     const events = Object.values(data)
@@ -82,9 +86,10 @@ function formatTime(date) {
       .slice(0, 5);
 
     const rows = events.map(e => {
+      const eventDate = adjustTime(new Date(e.start));
       const sport = extractSport(e.summary);
-      const date = formatDate(new Date(e.start));
-      const time = formatTime(new Date(e.start));
+      const date = formatDate(eventDate);
+      const time = formatTime(eventDate);
       const opponent = simplifyOpponent(e.summary);
       return `<tr><td>${sport}</td><td>${date}</td><td>${time}</td><td>${opponent}</td></tr>`;
     });
@@ -96,46 +101,40 @@ function formatTime(date) {
   <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <title>Games</title>
-<style>
-  body {
-    font-family: 'Goldman', cursive;
-    font-weight: 700; /* Bold */
-    background: transparent;
-    margin: 0;
-    color: white;
-    display: flex;
-    justify-content: center;
-    padding-top: 630px;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 1920px;
-    font-size: 2.5em;
-    text-align: center;
-  }
-
-  td {
-    padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    vertical-align: middle;
-    color: white;
-    background: transparent;
-  }
-
-  tr:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-
-tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.4); /* 40% black */
-}
-
-tr:nth-child(even) td {
-  color: #00a8ff !important; /* Bright blue text for even rows */
-}
-</style>
+  <style>
+    body {
+      font-family: 'Goldman', cursive;
+      font-weight: 700;
+      background: transparent;
+      margin: 0;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding-top: 630px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1920px;
+      font-size: 2.5em;
+      text-align: center;
+    }
+    td {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      vertical-align: middle;
+      background: transparent;
+    }
+    tr:nth-child(odd) {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    tr:nth-child(even) td {
+      color: #00a8ff !important;
+    }
+  </style>
 </head>
 <body>
   <table>

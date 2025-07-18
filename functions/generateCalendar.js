@@ -128,10 +128,13 @@ function formatTime(date) {
     background-color: rgba(0, 0, 0, 0.8);
   }
 
-  tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.4);
-    color: #00a8ff;
-  }
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.4); /* 40% black */
+}
+
+tr:nth-child(even) td {
+  color: #00a8ff !important; /* Bright blue text for even rows */
+}
 </style>
 </head>
 <body>

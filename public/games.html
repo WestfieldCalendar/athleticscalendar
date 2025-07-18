@@ -8,30 +8,35 @@
   body {
     font-family: sans-serif;
     background: transparent;
-    margin: 20px;
+    margin: 0;
     color: white;
-    display: flex;               /* use flexbox */
-    justify-content: center;     /* center horizontally */
+    display: flex;
+    justify-content: center;
+    padding-top: 680px; /* Push content down from the top */
   }
+
   table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 1920px;           /* limit max width */
+    max-width: 1920px;
     font-size: 1.3em;
-    background: transparent;
-    text-align: center;          /* center text in table cells */
+    text-align: center;
   }
+
   td {
     padding: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     vertical-align: middle;
     color: white;
     background: transparent;
-    text-align: center;          /* center text */
   }
-  tr:nth-child(odd),
+
+  tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.8); /* 80% black */
+  }
+
   tr:nth-child(even) {
-    background-color: transparent !important;
+    background-color: rgba(0, 0, 0, 0.4); /* 40% black */
   }
 </style>
 </head>

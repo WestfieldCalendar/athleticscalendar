@@ -4,10 +4,3 @@
 
 [functions]
   directory = "functions"
-
-[[plugins]]
-  package = "@netlify/plugin-scheduled-functions"
-
-[[scheduled-functions]]
-  function = "generateCalendar"
-  schedule = "@daily"

@@ -58,7 +58,7 @@ function simplifyOpponent(summary) {
 }
 
 function formatDate(date) {
-  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  return date.toLocaleDateString(undefined, { weekday: 'short', month: 'numeric', day: 'numeric' });
 }
 
 function formatTime(date) {

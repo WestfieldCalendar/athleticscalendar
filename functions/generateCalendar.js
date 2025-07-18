@@ -130,6 +130,7 @@ function formatTime(date) {
 
   tr:nth-child(even) {
     background-color: rgba(0, 0, 0, 0.4);
+    color: #00a8ff;
   }
 </style>
 </head>

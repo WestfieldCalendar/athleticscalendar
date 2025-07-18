@@ -1,0 +1,11 @@
+{
+  "name": "westfield-calendar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node functions/generateCalendar.js"
+  },
+  "dependencies": {
+    "node-ical": "^0.15.3"
+  }
+}

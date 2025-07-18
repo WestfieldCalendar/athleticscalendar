@@ -1,0 +1,13 @@
+[build]
+  publish = "public"
+  command = "node functions/generateCalendar.js"
+
+[functions]
+  directory = "functions"
+
+[[plugins]]
+  package = "@netlify/plugin-scheduled-functions"
+
+[[scheduled-functions]]
+  function = "generateCalendar"
+  schedule = "@daily"

@@ -44,7 +44,7 @@ function simplifyOpponent(summary) {
   const vsIndex = summary.toLowerCase().indexOf('vs.');
   let opponent = vsIndex !== -1 ? summary.slice(vsIndex + 3).trim() : summary;
 
-  // Remove anything like "Westfield State"
+  // Remove "Westfield State"
   opponent = opponent.replace(/Westfield State/gi, '').trim();
 
   // Remove parentheses and content inside
@@ -54,24 +54,21 @@ function simplifyOpponent(summary) {
 }
 
 function formatDate(date) {
-  return date.toLocaleDateString(undefined, {
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
     weekday: 'short',
     month: 'numeric',
     day: 'numeric',
-  });
+  }).format(date);
 }
 
 function formatTime(date) {
-  return date.toLocaleTimeString(undefined, {
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
-  });
-}
-
-function adjustTime(date) {
-  // Adjust 4 hours for EDT
-  return new Date(date.getTime() - 4 * 60 * 60 * 1000);
+  }).format(date);
 }
 
 (async () => {
@@ -86,13 +83,15 @@ function adjustTime(date) {
       .slice(0, 5);
 
     const rows = events.map(e => {
-      const eventDate = adjustTime(new Date(e.start));
+      const eventDate = new Date(e.start);
       const sport = extractSport(e.summary);
       const date = formatDate(eventDate);
       const time = formatTime(eventDate);
       const opponent = simplifyOpponent(e.summary);
       return `<tr><td>${sport}</td><td>${date}</td><td>${time}</td><td>${opponent}</td></tr>`;
     });
+
+    const timestamp = `<!-- Updated: ${new Date().toISOString()} -->`;
 
     const html = `
 <!DOCTYPE html>
@@ -140,6 +139,7 @@ function adjustTime(date) {
   <table>
     ${rows.join('\n')}
   </table>
+  ${timestamp}
 </body>
 </html>
 `;

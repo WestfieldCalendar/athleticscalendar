@@ -44,10 +44,7 @@ function simplifyOpponent(summary) {
   const vsIndex = summary.toLowerCase().indexOf('vs.');
   let opponent = vsIndex !== -1 ? summary.slice(vsIndex + 3).trim() : summary;
 
-  // Remove "Westfield State"
   opponent = opponent.replace(/Westfield State/gi, '').trim();
-
-  // Remove parentheses and content inside
   opponent = opponent.replace(/\s*\([^)]*\)/g, '').trim();
 
   return opponent;
@@ -55,7 +52,6 @@ function simplifyOpponent(summary) {
 
 function formatDate(date) {
   return new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/New_York',
     weekday: 'short',
     month: 'numeric',
     day: 'numeric',
@@ -64,7 +60,6 @@ function formatDate(date) {
 
 function formatTime(date) {
   return new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/New_York',
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
@@ -83,7 +78,7 @@ function formatTime(date) {
       .slice(0, 5);
 
     const rows = events.map(e => {
-      const eventDate = new Date(e.start);
+      const eventDate = e.start;
       const sport = extractSport(e.summary);
       const date = formatDate(eventDate);
       const time = formatTime(eventDate);

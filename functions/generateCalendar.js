@@ -22,6 +22,7 @@ function formatDate(date) {
     weekday: 'short',
     month: 'numeric',
     day: 'numeric',
+    timeZone: 'America/New_York',
   }).format(date);
 }
 
@@ -46,10 +47,9 @@ function formatTime(date) {
       .slice(0, 5);
 
     const rows = events.map(e => {
-      const eventDate = new Date(e.start.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const date = formatDate(e.start);
+      const time = formatTime(e.start);
       const sport = e.categories || 'Unknown';
-      const date = formatDate(eventDate);
-      const time = formatTime(eventDate);
       const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
       return `<tr><td>${sport}</td><td>${date}</td><td>${time}</td><td>${cleanSummary}</td></tr>`;
     });

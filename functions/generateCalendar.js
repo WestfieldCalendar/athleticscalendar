@@ -45,7 +45,7 @@ function formatTime(date) {
       .slice(0, 5);
 
     const rows = events.map(e => {
-      const eventDate = e.start;
+      const eventDate = new Date(e.start.toLocaleString("en-US", { timeZone: "America/New_York" }));
       const date = formatDate(eventDate);
       const time = formatTime(eventDate);
 

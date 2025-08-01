@@ -17,39 +17,6 @@ function fetchICS(url) {
   });
 }
 
-function extractSport(summary) {
-  const knownSports = [
-    'Field Hockey',
-    'Football',
-    'Soccer',
-    'Basketball',
-    'Volleyball',
-    'Hockey',
-    'Lacrosse',
-    'Baseball',
-    'Softball',
-    'Track',
-    'Cross Country',
-    'Golf',
-    'Tennis'
-  ];
-  const lowerSummary = summary.toLowerCase();
-  for (const sport of knownSports) {
-    if (lowerSummary.includes(sport.toLowerCase())) return sport;
-  }
-  return summary.split(' ')[0];
-}
-
-function simplifyOpponent(summary) {
-  const vsIndex = summary.toLowerCase().indexOf('vs.');
-  let opponent = vsIndex !== -1 ? summary.slice(vsIndex + 3).trim() : summary;
-
-  opponent = opponent.replace(/Westfield State/gi, '').trim();
-  opponent = opponent.replace(/\s*\([^)]*\)/g, '').trim();
-
-  return opponent;
-}
-
 function formatDate(date) {
   return new Intl.DateTimeFormat('en-US', {
     weekday: 'short',
@@ -79,11 +46,13 @@ function formatTime(date) {
 
     const rows = events.map(e => {
       const eventDate = e.start;
-      const sport = extractSport(e.summary);
       const date = formatDate(eventDate);
       const time = formatTime(eventDate);
-      const opponent = simplifyOpponent(e.summary);
-      return `<tr><td>${sport}</td><td>${date}</td><td>${time}</td><td>${opponent}</td></tr>`;
+
+      // Remove leading sport in parentheses
+      const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '');
+
+      return `<tr><td>${date}</td><td>${time}</td><td>${cleanSummary}</td></tr>`;
     });
 
     const timestamp = `<!-- Updated: ${new Date().toISOString()} -->`;

@@ -72,29 +72,43 @@ function formatTime(date) {
       color: white;
       display: flex;
       justify-content: center;
-      padding-top: 630px;
+      padding-top: 500px;
     }
     table {
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 1920px;
-      font-size: 2.5em;
-      text-align: center;
-    }
-    td {
-      padding: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      vertical-align: middle;
-      background: transparent;
-    }
-    tr:nth-child(odd) {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-    tr:nth-child(even) {
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-    tr:nth-child(even) td {
-      color: #00a8ff !important;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1920px;
+  font-size: 2.5em;
+  text-align: center;
+  table-layout: fixed;
+}
+
+td, th {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  vertical-align: middle;
+  background: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td:nth-child(1) { width: 20%; }
+td:nth-child(2) { width: 25%; }
+td:nth-child(3) { width: 15%; }
+td:nth-child(4) { width: 40%; }
+
+tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+tr:nth-child(even) td {
+  color: #00a8ff !important;
+}
     }
   </style>
 </head>

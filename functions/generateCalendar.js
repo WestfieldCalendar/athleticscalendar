@@ -30,6 +30,7 @@ function formatTime(date) {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
+    timeZone: 'America/New_York',
   }).format(date);
 }
 
@@ -45,14 +46,12 @@ function formatTime(date) {
       .slice(0, 5);
 
     const rows = events.map(e => {
-      const eventDate = new Date(e.start.toLocaleString("en-US", { timeZone: "America/New_York" }));
+      const eventDate = new Date(e.start.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const sport = e.categories || 'Unknown';
       const date = formatDate(eventDate);
       const time = formatTime(eventDate);
-
-      // Remove leading sport in parentheses
-      const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '');
-
-      return `<tr><td>${date}</td><td>${time}</td><td>${cleanSummary}</td></tr>`;
+      const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
+      return `<tr><td>${sport}</td><td>${date}</td><td>${time}</td><td>${cleanSummary}</td></tr>`;
     });
 
     const timestamp = `<!-- Updated: ${new Date().toISOString()} -->`;

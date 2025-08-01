@@ -64,51 +64,54 @@ function formatTime(date) {
   <meta charset="UTF-8" />
   <title>Games</title>
   <style>
-    body {
+    html, body {
+      margin: 0; padding: 0;
+      width: 1920px;
+      height: 1080px;
+      background: transparent;
+      color: white;
       font-family: 'Goldman', cursive;
       font-weight: 700;
-      background: transparent;
-      margin: 0;
-      color: white;
       display: flex;
       justify-content: center;
-      padding-top: 500px;
+      align-items: center;
+      overflow: hidden;
     }
+
     table {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 1920px;
-  font-size: 2.5em;
-  text-align: center;
-  table-layout: fixed;
-}
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1920px;
+      font-size: clamp(1em, 2vw, 2.5em);
+      text-align: center;
+      table-layout: fixed;
+    }
 
-td, th {
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  vertical-align: middle;
-  background: transparent;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    td, th {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      vertical-align: middle;
+      background: transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-td:nth-child(1) { width: 20%; }
-td:nth-child(2) { width: 25%; }
-td:nth-child(3) { width: 15%; }
-td:nth-child(4) { width: 40%; }
+    td:nth-child(1) { width: 20%; }
+    td:nth-child(2) { width: 25%; }
+    td:nth-child(3) { width: 15%; }
+    td:nth-child(4) { width: 40%; }
 
-tr:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.8);
-}
+    tr:nth-child(odd) {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
 
-tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.4);
-}
+    tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
 
-tr:nth-child(even) td {
-  color: #00a8ff !important;
-}
+    tr:nth-child(even) td {
+      color: #00a8ff !important;
     }
   </style>
 </head>
@@ -116,6 +119,31 @@ tr:nth-child(even) td {
   <table>
     ${rows.join('\n')}
   </table>
+
+  <script>
+    function fitTextToCell(cell, minFontSize = 12) {
+      let fontSize = parseFloat(window.getComputedStyle(cell).fontSize);
+
+      // Reset font-size to base for accurate measuring
+      cell.style.fontSize = '';
+
+      while (cell.scrollWidth > cell.clientWidth && fontSize > minFontSize) {
+        fontSize -= 1;
+        cell.style.fontSize = fontSize + 'px';
+      }
+    }
+
+    window.onload = () => {
+      document.querySelectorAll('td').forEach(cell => fitTextToCell(cell));
+    };
+
+    window.onresize = () => {
+      document.querySelectorAll('td').forEach(cell => {
+        cell.style.fontSize = ''; // reset font size before refitting
+        fitTextToCell(cell);
+      });
+    };
+  </script>
   ${timestamp}
 </body>
 </html>

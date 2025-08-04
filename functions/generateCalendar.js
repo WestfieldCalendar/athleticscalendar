@@ -46,10 +46,22 @@ function formatTime(date) {
       .sort((a, b) => new Date(a.start) - new Date(b.start))
       .slice(0, 5);
 
+    // Map sport categories to Material Icon names
+    const sportIcons = {
+      Soccer: 'sports_soccer',
+      Basketball: 'sports_basketball',
+      Baseball: 'sports_baseball',
+      'Track & Field': 'directions_run',
+      Football: 'sports_football',
+      Volleyball: 'sports_volleyball',
+      Hockey: 'sports_hockey',
+      Unknown: 'sports',
+    };
+
     const cards = events.map(e => {
       const date = formatDate(e.start);
 
-      // Check if this is an all-day event
+      // Detect all-day events
       const isAllDay =
         e.datetype === 'date' ||
         (e.start instanceof Date && e.start.getUTCHours() === 0 && e.start.getUTCMinutes() === 0 && !e.start.toISOString().includes('T00:00:00.000Z'));
@@ -59,14 +71,18 @@ function formatTime(date) {
       const sport = e.categories || 'Unknown';
       const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
 
+      const iconName = sportIcons[sport] || sportIcons.Unknown;
+
       return `
         <div class="col" style="flex: 0 0 18%; max-width: 18%;">
           <div class="card text-white bg-dark h-100 border border-light">
             <div class="card-body d-flex flex-column justify-content-between text-center p-4" style="font-size: 1.4rem;">
-              <!-- Matchup on top -->
-              <div>
-                <h4 class="card-title mb-4" style="font-size: 2rem;">${cleanSummary}</h4>
+
+              <!-- Icon inside a circle + Matchup on top -->
+              <div class="mb-3 d-flex justify-content-center align-items-center" style="margin-bottom: 1.5rem;">
+                <span class="material-icons icon-circle">${iconName}</span>
               </div>
+              <h4 class="card-title mb-4" style="font-size: 2rem;">${cleanSummary}</h4>
 
               <!-- Date, time, sport at the bottom -->
               <div style="font-size: 1.1rem; color: #ccc;">
@@ -86,10 +102,11 @@ function formatTime(date) {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Games</title>
-  <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
     html, body {
       margin: 0;
@@ -101,6 +118,19 @@ function formatTime(date) {
       font-family: 'Goldman', cursive;
       font-weight: 700;
       overflow: hidden;
+    }
+    .icon-circle {
+      font-size: 3.5rem;
+      color: #00a8ff;
+      background-color: rgba(0, 168, 255, 0.15);
+      border-radius: 50%;
+      padding: 15px;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
     }
   </style>
 </head>
@@ -116,7 +146,7 @@ function formatTime(date) {
 `;
 
     fs.writeFileSync(OUTPUT_PATH, html);
-    console.log('✅ games.html generated!');
+    console.log('✅ games.html generated with icons!');
   } catch (err) {
     console.error('❌ Failed to generate HTML:', err);
   }

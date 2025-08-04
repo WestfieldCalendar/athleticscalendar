@@ -54,11 +54,19 @@ function formatTime(date) {
 
       return `
         <div class="col" style="flex: 0 0 18%; max-width: 18%;">
-          <div class="card text-white bg-dark h-100">
-            <div class="card-body d-flex flex-column justify-content-center text-center" style="font-size: 1.5rem;">
-              <h5 class="card-title">${sport}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">${date} @ ${time}</h6>
-              <p class="card-text">${cleanSummary}</p>
+          <div class="card text-white bg-dark h-100 border border-light">
+            <div class="card-body d-flex flex-column justify-content-between text-center p-4" style="font-size: 1.4rem;">
+              <!-- Matchup on top -->
+              <div>
+                <h4 class="card-title mb-4" style="font-size: 2rem;">${cleanSummary}</h4>
+              </div>
+
+              <!-- Date, time, sport at the bottom -->
+              <div style="font-size: 1.1rem; color: #ccc;">
+                <div><strong>${date}</strong></div>
+                <div>${time}</div>
+                <div style="color: #00a8ff;">${sport}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -90,7 +98,7 @@ function formatTime(date) {
   </style>
 </head>
 <body>
-  <div class="container-fluid" style="width: 1920px; height: 1080px; display: flex; justify-content: center; align-items: center; background: transparent;">
+  <div class="container-fluid" style="width: 1920px; height: 1080px; display: flex; justify-content: center; align-items: center;">
     <div class="row w-100 justify-content-between px-5">
       ${cards.join('\n')}
     </div>

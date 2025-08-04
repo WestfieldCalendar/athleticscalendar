@@ -38,15 +38,11 @@ function formatTime(date) {
 function getSportIconData(categories) {
   if (!categories) return { icon: 'sports', type: 'material-icons' };
 
-  let catStr = '';
-
-  if (Array.isArray(categories)) {
-    catStr = categories.join(' ').toLowerCase();
-  } else if (typeof categories === 'string') {
-    catStr = categories.toLowerCase();
-  } else {
-    return { icon: 'sports', type: 'material-icons' };
-  }
+  let catStr = Array.isArray(categories)
+    ? categories.join(' ').toLowerCase()
+    : typeof categories === 'string'
+    ? categories.toLowerCase()
+    : '';
 
   if (catStr.includes('soccer')) return { icon: 'sports_soccer', type: 'material-icons' };
   if (catStr.includes('basketball')) return { icon: 'sports_basketball', type: 'material-icons' };
@@ -77,8 +73,6 @@ function getSportIconData(categories) {
 
     const cards = events.map(e => {
       const date = formatDate(e.start);
-
-      // Detect all-day event if start has no time part (UTC midnight)
       const isAllDay =
         e.datetype === 'date' ||
         (e.start instanceof Date &&
@@ -87,23 +81,21 @@ function getSportIconData(categories) {
           e.start.toISOString().endsWith('T00:00:00.000Z'));
 
       const timeString = isAllDay ? 'All Day' : formatTime(e.start);
-
       const sport = e.categories || 'Unknown';
       const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
-
       const { icon, type } = getSportIconData(sport);
 
       return `
-        <div class="col" style="flex: 0 0 18%; max-width: 18%;">
-          <div class="card h-100 d-flex flex-column justify-content-between text-center" style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 1rem; box-shadow: 0 0 15px rgba(0,168,255,0.6);">
+        <div class="col">
+          <div class="card h-100">
             <div class="mb-3">
               <span class="${type} icon-circle" aria-hidden="true">${icon}</span>
             </div>
-            <h4 class="card-title mb-4" style="font-size: 2rem;">${cleanSummary}</h4>
-            <div style="font-size: 1.1rem; color: #ccc;">
+            <h4 class="card-title mb-4">${cleanSummary}</h4>
+            <div class="card-details">
               <div><strong>${date}</strong></div>
               <div>${timeString}</div>
-              <div style="color: #00a8ff;">${sport}</div>
+              <div class="sport-name">${sport}</div>
             </div>
           </div>
         </div>
@@ -138,7 +130,7 @@ function getSportIconData(categories) {
       overflow: hidden;
     }
 
-    body > .container {
+    .container {
       display: flex;
       width: 90vw;
       max-width: 1800px;
@@ -146,20 +138,22 @@ function getSportIconData(categories) {
       gap: 2%;
     }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  min-height: 320px;
-  border-radius: 2rem; /* more rounded */
-  border: 1px solid white; /* subtle white stroke */
-  background: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  box-shadow: none; /* removed blue glow */
-}
+    .col {
+      flex: 0 0 18%;
+      max-width: 18%;
+    }
 
-
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      min-height: 320px;
+      border-radius: 2rem;
+      border: 1px solid white;
+      background: rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
 
     .icon-circle {
       display: inline-flex;
@@ -179,9 +173,21 @@ function getSportIconData(categories) {
       font-variation-settings: 'wght' 400, 'FILL' 0, 'GRAD' 0;
     }
 
-    h4.card-title {
+    .card-title {
+      font-size: 2rem;
       margin-top: 0;
       margin-bottom: 1rem;
+    }
+
+    .card-details {
+      font-size: 1.4rem;
+      color: #ccc;
+    }
+
+    .card-details .sport-name {
+      color: #00a8ff;
+      font-size: 1.5rem;
+      margin-top: 0.3rem;
     }
   </style>
 </head>
@@ -193,7 +199,6 @@ function getSportIconData(categories) {
   ${timestamp}
 </body>
 </html>`;
-
     fs.writeFileSync(OUTPUT_PATH, html);
     console.log('✅ games.html generated!');
   } catch (err) {

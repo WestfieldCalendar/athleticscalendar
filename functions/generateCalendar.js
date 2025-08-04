@@ -48,7 +48,14 @@ function formatTime(date) {
 
     const cards = events.map(e => {
       const date = formatDate(e.start);
-      const time = formatTime(e.start);
+
+      // Check if this is an all-day event
+      const isAllDay =
+        e.datetype === 'date' ||
+        (e.start instanceof Date && e.start.getUTCHours() === 0 && e.start.getUTCMinutes() === 0 && !e.start.toISOString().includes('T00:00:00.000Z'));
+
+      const timeString = isAllDay ? 'All Day' : formatTime(e.start);
+
       const sport = e.categories || 'Unknown';
       const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
 
@@ -64,7 +71,7 @@ function formatTime(date) {
               <!-- Date, time, sport at the bottom -->
               <div style="font-size: 1.1rem; color: #ccc;">
                 <div><strong>${date}</strong></div>
-                <div>${time}</div>
+                <div>${timeString}</div>
                 <div style="color: #00a8ff;">${sport}</div>
               </div>
             </div>

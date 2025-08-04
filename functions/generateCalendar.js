@@ -146,17 +146,18 @@ function getSportIconData(categories) {
       gap: 2%;
     }
 
-    .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-      min-height: 320px;
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0, 168, 255, 0.6);
-      background: rgba(0, 0, 0, 0.5);
-      text-align: center;
-    }
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  min-height: 320px;
+  border-radius: 2rem; /* more rounded */
+  border: 1px solid white; /* subtle white stroke */
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
 
     .icon-circle {
       display: inline-flex;

@@ -156,7 +156,9 @@ function getSportIconData(categories) {
   border: 1px solid white; /* subtle white stroke */
   background: rgba(0, 0, 0, 0.5);
   text-align: center;
+  box-shadow: none; /* removed blue glow */
 }
+
 
 
     .icon-circle {

@@ -46,12 +46,23 @@ function formatTime(date) {
       .sort((a, b) => new Date(a.start) - new Date(b.start))
       .slice(0, 5);
 
-    const rows = events.map(e => {
+    const cards = events.map(e => {
       const date = formatDate(e.start);
       const time = formatTime(e.start);
       const sport = e.categories || 'Unknown';
       const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
-      return `<tr><td>${sport}</td><td>${date}</td><td>${time}</td><td>${cleanSummary}</td></tr>`;
+
+      return `
+        <div class="col" style="flex: 0 0 18%; max-width: 18%;">
+          <div class="card text-white bg-dark h-100">
+            <div class="card-body d-flex flex-column justify-content-center text-center" style="font-size: 1.5rem;">
+              <h5 class="card-title">${sport}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${date} @ ${time}</h6>
+              <p class="card-text">${cleanSummary}</p>
+            </div>
+          </div>
+        </div>
+      `;
     });
 
     const timestamp = `<!-- Updated: ${new Date().toISOString()} -->`;
@@ -60,90 +71,30 @@ function formatTime(date) {
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Games</title>
+  <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     html, body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       width: 1920px;
       height: 1080px;
       background: transparent;
       color: white;
       font-family: 'Goldman', cursive;
       font-weight: 700;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 1920px;
-      font-size: clamp(1em, 2vw, 2.5em);
-      text-align: center;
-      table-layout: fixed;
-    }
-
-    td, th {
-      padding: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      vertical-align: middle;
-      background: transparent;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    td:nth-child(1) { width: 20%; }
-    td:nth-child(2) { width: 25%; }
-    td:nth-child(3) { width: 15%; }
-    td:nth-child(4) { width: 40%; }
-
-    tr:nth-child(odd) {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    tr:nth-child(even) {
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    tr:nth-child(even) td {
-      color: #00a8ff !important;
     }
   </style>
 </head>
 <body>
-  <table>
-    ${rows.join('\n')}
-  </table>
-
-  <script>
-    function fitTextToCell(cell, minFontSize = 12) {
-      let fontSize = parseFloat(window.getComputedStyle(cell).fontSize);
-
-      // Reset font-size to base for accurate measuring
-      cell.style.fontSize = '';
-
-      while (cell.scrollWidth > cell.clientWidth && fontSize > minFontSize) {
-        fontSize -= 1;
-        cell.style.fontSize = fontSize + 'px';
-      }
-    }
-
-    window.onload = () => {
-      document.querySelectorAll('td').forEach(cell => fitTextToCell(cell));
-    };
-
-    window.onresize = () => {
-      document.querySelectorAll('td').forEach(cell => {
-        cell.style.fontSize = ''; // reset font size before refitting
-        fitTextToCell(cell);
-      });
-    };
-  </script>
+  <div class="container-fluid" style="width: 1920px; height: 1080px; display: flex; justify-content: center; align-items: center; background: transparent;">
+    <div class="row w-100 justify-content-between px-5">
+      ${cards.join('\n')}
+    </div>
+  </div>
   ${timestamp}
 </body>
 </html>

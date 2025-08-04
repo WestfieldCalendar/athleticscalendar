@@ -35,7 +35,6 @@ function formatTime(date) {
   }).format(date);
 }
 
-// Return icon name and icon font type for a given sport/category string/array
 function getSportIconData(categories) {
   if (!categories) return { icon: 'sports', type: 'material-icons' };
 
@@ -53,7 +52,7 @@ function getSportIconData(categories) {
   if (catStr.includes('basketball')) return { icon: 'sports_basketball', type: 'material-icons' };
   if (catStr.includes('baseball')) return { icon: 'sports_baseball', type: 'material-icons' };
   if (catStr.includes('track')) return { icon: 'directions_run', type: 'material-icons' };
-  if (catStr.includes('cross country')) return { icon: 'sprint', type: 'material-icons' };
+  if (catStr.includes('cross country')) return { icon: 'directions_run', type: 'material-icons' };
   if (catStr.includes('football')) return { icon: 'sports_football', type: 'material-icons' };
   if (catStr.includes('volleyball')) return { icon: 'sports_volleyball', type: 'material-icons' };
   if (catStr.includes('hockey')) return { icon: 'sports_hockey', type: 'material-icons' };
@@ -96,12 +95,12 @@ function getSportIconData(categories) {
 
       return `
         <div class="col" style="flex: 0 0 18%; max-width: 18%;">
-          <div class="card text-white bg-dark h-100 border border-light d-flex flex-column justify-content-between" style="padding: 1rem;">
-            <div class="text-center mb-3">
+          <div class="card h-100 d-flex flex-column justify-content-between text-center" style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 1rem; box-shadow: 0 0 15px rgba(0,168,255,0.6);">
+            <div class="mb-3">
               <span class="${type} icon-circle" aria-hidden="true">${icon}</span>
             </div>
-            <h4 class="card-title text-center mb-4" style="font-size: 2rem;">${cleanSummary}</h4>
-            <div class="text-center" style="font-size: 1.1rem; color: #ccc;">
+            <h4 class="card-title mb-4" style="font-size: 2rem;">${cleanSummary}</h4>
+            <div style="font-size: 1.1rem; color: #ccc;">
               <div><strong>${date}</strong></div>
               <div>${timeString}</div>
               <div style="color: #00a8ff;">${sport}</div>
@@ -148,13 +147,15 @@ function getSportIconData(categories) {
     }
 
     .card {
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0, 168, 255, 0.6);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 1rem 2rem;
       min-height: 320px;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.6);
+      background: rgba(0, 0, 0, 0.5);
+      text-align: center;
     }
 
     .icon-circle {
@@ -168,6 +169,7 @@ function getSportIconData(categories) {
       font-size: 3.5rem;
       color: #00a8ff;
       user-select: none;
+      margin: 0 auto 1rem auto;
     }
 
     .material-symbols-outlined.icon-circle {

@@ -136,41 +136,47 @@ function getSportIconData(categories) {
     width: 95vw;
     max-width: 1920px;
     justify-content: space-evenly;
-    gap: 20px;
+    gap: 30px;
   }
 
   .col {
     flex: 1;
-    max-width: 320px;
+    max-width: 360px;
   }
 
   .card {
     background-color: rgba(0, 0, 0, 0.5); /* black with 50% opacity */
     border: 1px solid white;             /* 1px white stroke */
-    border-radius: 12px;
-    padding: 30px;
+    border-radius: 16px;
+    padding: 40px 30px;
     text-align: center;
     height: 100%;
   }
 
   .card-title {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #00a2ff; /* your custom light blue */
+    font-size: 2.4rem;           /* bigger matchup text */
+    margin-bottom: 30px;
+    color: white;                /* white matchup title */
   }
 
   .card-details {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #00a2ff; /* your custom light blue */
+    font-size: 1.6rem;           /* bigger details */
+    line-height: 2.2rem;
+    color: #00a2ff;              /* light blue */
   }
 
   .icon-circle {
-    font-size: 3rem;
+    font-size: 3.5rem;
+    background-color: #00a2ff;  /* light blue circle background */
+    color: black;               /* icon inside the circle */
     border-radius: 50%;
-    padding: 15px;
-    display: inline-block;
-    color: #00a2ff; /* your custom light blue */
+    padding: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
   }
 </style>
 </head>

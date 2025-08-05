@@ -52,9 +52,4 @@ function getSportIconData(categories) {
   if (catStr.includes('football')) return { icon: 'sports_football', type: 'material-icons' };
   if (catStr.includes('volleyball')) return { icon: 'sports_volleyball', type: 'material-icons' };
   if (catStr.includes('hockey')) return { icon: 'sports_hockey', type: 'material-icons' };
-  if (catStr.includes('golf')) return { icon: 'golf_course', type: 'material-icons' };
-  if (catStr.includes('lacrosse')) return { icon: 'pickleball', type: 'material-symbols-outlined' };
-  if (catStr.includes('cheerleading')) return { icon: 'stadium', type: 'material-icons' };
-  if (catStr.includes('swimming')) return { icon: 'pool', type: 'material-icons' };
-
-  return { icon: 'sports', type: 'material-icons' }
+  if (catStr.includes('golf')) return { icon: 'golf_course', type: 'm_

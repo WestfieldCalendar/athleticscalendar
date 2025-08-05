@@ -52,4 +52,134 @@ function getSportIconData(categories) {
   if (catStr.includes('football')) return { icon: 'sports_football', type: 'material-icons' };
   if (catStr.includes('volleyball')) return { icon: 'sports_volleyball', type: 'material-icons' };
   if (catStr.includes('hockey')) return { icon: 'sports_hockey', type: 'material-icons' };
-  if (catStr.includes('golf')) return { icon: 'golf_course', type: 'm_
+  if (catStr.includes('golf')) return { icon: 'golf_course', type: 'material-icons' };
+  if (catStr.includes('lacrosse')) return { icon: 'pickleball', type: 'material-symbols-outlined' };
+  if (catStr.includes('cheerleading')) return { icon: 'stadium', type: 'material-icons' };
+  if (catStr.includes('swimming')) return { icon: 'pool', type: 'material-icons' };
+
+  return { icon: 'sports', type: 'material-icons' };
+}
+
+(async () => {
+  try {
+    const rawICS = await fetchICS(ICS_URL);
+    const data = ical.parseICS(rawICS);
+    const now = new Date();
+
+    const events = Object.values(data)
+      .filter(e => e.type === 'VEVENT' && new Date(e.start) >= now)
+      .sort((a, b) => new Date(a.start) - new Date(b.start))
+      .slice(0, 5);
+
+    const cards = events.map(e => {
+      const date = formatDate(e.start);
+      const isAllDay =
+        e.datetype === 'date' ||
+        (e.start instanceof Date &&
+          e.start.getUTCHours() === 0 &&
+          e.start.getUTCMinutes() === 0 &&
+          e.start.toISOString().endsWith('T00:00:00.000Z'));
+
+      const timeString = isAllDay ? 'All Day' : formatTime(e.start);
+      const sport = e.categories || 'Unknown';
+      const cleanSummary = e.summary.replace(/^\([^)]*\)\s*/, '').trim();
+      const { icon, type } = getSportIconData(sport);
+
+      return `
+        <div class="col">
+          <div class="card h-100">
+            <div class="mb-3">
+              <span class="${type} icon-circle" aria-hidden="true">${icon}</span>
+            </div>
+            <h4 class="card-title mb-4">${cleanSummary}</h4>
+            <div class="card-details">
+              <div><strong>${date}</strong></div>
+              <div>${timeString}</div>
+              <div class="sport-name">${sport}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    const timestamp = `<!-- Updated: ${new Date().toISOString()} -->`;
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Games</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 1920px;
+      height: 1080px;
+      background: transparent;
+      color: white;
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      width: 95vw;
+      max-width: 1920px;
+      justify-content: space-evenly;
+    }
+
+    .col {
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .card-details {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .icon-circle {
+      font-size: 2rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      padding: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    ${cards.join('\n')}
+  </div>
+  ${timestamp}
+</body>
+</html>`;
+
+    fs.writeFileSync(OUTPUT_PATH, html);
+    console.log(`Games HTML written to: ${OUTPUT_PATH}`);
+  } catch (err) {
+    console.error('Error fetching or generating games HTML:', err);
+  }
+})();

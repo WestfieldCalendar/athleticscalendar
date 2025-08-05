@@ -169,7 +169,7 @@ function getSportIconData(categories) {
 
   .icon-circle {
     font-size: 3.5rem;
-    background-color: #00a2ff;  /* light blue circle background */
+    background-color: rgba(0, 162, 255, 0.5);  /* light blue circle background */
     color: white;               /* icon inside the circle */
     border-radius: 50%;
     padding: 20px;

@@ -160,7 +160,7 @@ function getSportIconData(categories) {
   }
 
   .card-details {
-    font-size: 1.6rem;           /* bigger details */
+    font-size: 2.0rem;           /* bigger details */
     line-height: 2.2rem;
     color: #00a2ff;              /* light blue */
   }
@@ -168,7 +168,7 @@ function getSportIconData(categories) {
   .icon-circle {
     font-size: 3.5rem;
     background-color: #00a2ff;  /* light blue circle background */
-    color: black;               /* icon inside the circle */
+    color: white;               /* icon inside the circle */
     border-radius: 50%;
     padding: 20px;
     display: inline-flex;

@@ -151,6 +151,8 @@ function getSportIconData(categories) {
     padding: 40px 30px;
     text-align: center;
     height: 100%;
+    
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 
   .card-title {
